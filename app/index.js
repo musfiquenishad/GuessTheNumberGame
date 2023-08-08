@@ -1,17 +1,30 @@
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
+import { StyleSheet, Text, View, Pressable, Image, Switch } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Audio } from "expo-av";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { router } from "expo-router";
-
+import Modal from "react-native-modal";
+import DropDownPicker from "react-native-dropdown-picker";
 export default function App() {
   const [fontsLoaded] = useFonts({
     "petit-cochon": require("../assets/fonts/Petit Cochon.ttf"),
     handjet: require("../assets/fonts/Handjet.ttf"),
   });
+
+  const [showSettings, setShowSettings] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(true);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("easy");
+  const [items, setItems] = useState([
+    { label: "Easy", value: "easy" },
+    { label: "Medium", value: "medium" },
+    { label: "Hard", value: "hard" },
+  ]);
 
   useEffect(() => {
     function prepare() {
@@ -28,7 +41,294 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar translucent={true} backgroundColor="#00ADB5" />
+      <Modal
+        animationIn="slideInDown"
+        animationOut="slideOutUp"
+        animationOutTiming={800}
+        isVisible={showSettings}
+        onBackButtonPress={() => {
+          setShowSettings(false);
+        }}
+        onBackdropPress={() => {
+          setShowSettings(false);
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: "#EEEEEE",
+            borderRadius: 10,
+            padding: 20,
+            margin: 25,
+          }}
+        >
+          {/* Header */}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              marginBottom: 20,
+              marginLeft: 10,
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "petit-cochon",
+                fontSize: 30,
+                color: "#039096",
+              }}
+            >
+              Settings
+            </Text>
+            <Pressable
+              onPress={async () => {
+                const { sound } = await Audio.Sound.createAsync(
+                  require("../assets/sounds/startSound.mp3")
+                );
+
+                sound.playAsync();
+                setShowSettings(false);
+              }}
+            >
+              <View>
+                <Image
+                  style={{ width: 30, height: 30 }}
+                  source={require("../assets/close.png")}
+                />
+              </View>
+            </Pressable>
+          </View>
+
+          {/* body */}
+          <View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginLeft: 15,
+                marginRight: 15,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Image
+                  style={{ width: 20, height: 20 }}
+                  source={require("../assets/musicDark.png")}
+                />
+                <Text
+                  style={{
+                    fontFamily: "petit-cochon",
+                    fontSize: 20,
+                    marginLeft: 15,
+                    color: "#039096",
+                  }}
+                >
+                  Music
+                </Text>
+              </View>
+              <View>
+                <Switch
+                  trackColor={{ false: "#767577", true: "#039096" }}
+                  thumbColor={isEnabled ? "#00ADB5" : "#f4f3f4"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch}
+                  value={isEnabled}
+                />
+              </View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginLeft: 15,
+                marginRight: 15,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Image
+                  style={{ width: 20, height: 20 }}
+                  source={require("../assets/soundDark.png")}
+                />
+                <Text
+                  style={{
+                    fontFamily: "petit-cochon",
+                    fontSize: 20,
+                    marginLeft: 15,
+                    color: "#039096",
+                  }}
+                >
+                  Sound
+                </Text>
+              </View>
+              <View>
+                <Switch
+                  trackColor={{ false: "#767577", true: "#039096" }}
+                  thumbColor={isEnabled ? "#00ADB5" : "#f4f3f4"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch}
+                  value={isEnabled}
+                />
+              </View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginLeft: 15,
+                marginRight: 15,
+                marginTop: 10,
+                marginBottom: 10,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Image
+                  style={{ width: 20, height: 20 }}
+                  source={require("../assets/mode.png")}
+                />
+                <Text
+                  style={{
+                    fontFamily: "petit-cochon",
+                    fontSize: 20,
+                    marginLeft: 15,
+                    color: "#039096",
+                  }}
+                >
+                  Mode
+                </Text>
+              </View>
+              <View>
+                <DropDownPicker
+                  style={{
+                    width: 90,
+                    borderColor: "#EEEEEE",
+                  }}
+                  textStyle={{
+                    color: "#039096",
+                    fontFamily: "petit-cochon",
+                    textAlign: "center",
+                  }}
+                  open={open}
+                  value={value}
+                  items={items}
+                  setOpen={setOpen}
+                  setValue={setValue}
+                  setItems={setItems}
+                />
+              </View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginLeft: 15,
+                marginRight: 15,
+                marginTop: 10,
+                marginBottom: 10,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Image
+                  style={{ width: 20, height: 20 }}
+                  source={require("../assets/share.png")}
+                />
+                <Text
+                  style={{
+                    fontFamily: "petit-cochon",
+                    fontSize: 20,
+                    marginLeft: 15,
+                    color: "#039096",
+                  }}
+                >
+                  Share
+                </Text>
+              </View>
+              <View>
+                <Pressable>
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={require("../assets/link.png")}
+                  />
+                </Pressable>
+              </View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginLeft: 15,
+                marginRight: 15,
+                marginTop: 10,
+                marginBottom: 10,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Image
+                  style={{ width: 20, height: 20 }}
+                  source={require("../assets/star.png")}
+                />
+                <Text
+                  style={{
+                    fontFamily: "petit-cochon",
+                    fontSize: 20,
+                    marginLeft: 15,
+                    color: "#039096",
+                  }}
+                >
+                  Rate Us
+                </Text>
+              </View>
+              <View>
+                <Pressable>
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={require("../assets/link.png")}
+                  />
+                </Pressable>
+              </View>
+            </View>
+          </View>
+          {/* footer */}
+        </View>
+      </Modal>
 
       <LinearGradient colors={["#00ADB5", "#222831"]} style={styles.background}>
         {/* Header  */}
@@ -143,6 +443,8 @@ export default function App() {
               );
 
               sound.playAsync();
+
+              setShowSettings(true);
             }}
             style={({ pressed }) => [
               {
