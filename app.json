@@ -1,39 +1,56 @@
 {
-  "expo": {
-    "name": "Guess The Number",
-    "slug": "GuessTheNumber",
-    "description":"Guess the number is a simple number gussing brain game",
-    "scheme": "gtn",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff",
-      "scheme": "myapp",
-      "web": {
-      "bundler": "metro"
-          }
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "expo-router"
-    ]
-  }
+	"expo": {
+		"name": "Guess The Number",
+		"slug": "GuessTheNumber",
+		"description": "Guess the number is a simple number gussing brain game",
+		"scheme": "gtn",
+		"version": "1.0.4",
+		"orientation": "portrait",
+		"icon": "./assets/icon.png",
+		"userInterfaceStyle": "light",
+		"splash": {
+			"image": "./assets/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff",
+			"scheme": "myapp",
+			"web": {
+				"bundler": "metro"
+			}
+		},
+		"assetBundlePatterns": ["**/*"],
+		"ios": {
+			"supportsTablet": false
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon.png",
+				"backgroundColor": "#ffffff"
+			},
+			"package": "com.musfiquenishad.GuessTheNumber",
+			"versionCode": 4
+		},
+		"web": {
+			"favicon": "./assets/favicon.png"
+		},
+		"plugins": [
+			"expo-router",
+			[
+				"expo-font",
+				{
+					"fonts": [
+						"./assets/fonts/Handjet.ttf",
+						"./assets/fonts/Petit-Cochon.ttf"
+					]
+				}
+			]
+		],
+		"extra": {
+			"router": {
+				"origin": false
+			},
+			"eas": {
+				"projectId": "cddd9323-ca10-45aa-9f33-1eec0ce195bd"
+			}
+		}
+	}
 }
