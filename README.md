@@ -14,4 +14,6 @@
 ## Installation
 
 1. This App is published in playstore you can install it and play the game from there.
-   [![Download from Google Play](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.musfiquenishad.GuessTheNumber&pcampaignid=web_share)
+   <a href="https://play.google.com/store/apps/details?id=com.musfiquenishad.GuessTheNumber&pcampaignid=web_share">
+   <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Download from Google Play" width="200">
+   </a>
